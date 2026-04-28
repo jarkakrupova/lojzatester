@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lojza Tester – junior C# programátor. Portfolio školních projektů: ASP.NET Core, Spring Boot, Java.">
+  <title>Lojza Tester – Junior programátor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #faf7f2;
+      --ink: #1c1a17;
+      --ink-muted: #6b6559;
+      --ink-faint: #b5afa6;
+      --amber: #3d6b4f;
+      --amber-light: #e8f0eb;
+      --border: #e3ddd5;
+      --white: #ffffff;
+      --radius: 4px;
+      --font-serif: 'Lora', Georgia, serif;
+      --font-sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color .15s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 0; height: 1px;
+      background: var(--ink);
+      transition: width .2s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+
+    @media (max-width: 480px) {
+      .nav-links { gap: 1.25rem; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: clamp(4rem, 10vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+      max-width: 760px;
+    }
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-family: var(--font-sans);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--amber);
+    }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+      max-width: 520px;
+      margin-bottom: 2rem;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--amber);
+      color: var(--white);
+      text-decoration: none;
+      padding: .7rem 1.4rem;
+      border-radius: var(--radius);
+      font-size: .875rem;
+      font-weight: 500;
+      transition: background .15s;
+    }
+    .hero-cta:hover { background: #2e5a3e; }
+    .hero-cta svg { flex-shrink: 0; }
+
+    /* ── SECTION COMMON ── */
+    section {
+      padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── SKILLS ── */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 680px;
+    }
+    .skill-cell {
+      background: var(--cream);
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+      transition: background .15s;
+    }
+    .skill-cell:hover { background: var(--white); }
+    .skill-name {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .skill-note {
+      font-size: .78rem;
+      color: var(--ink-faint);
+    }
+
+    /* ── PROJECTS ── */
+    #projekty .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      max-width: 720px;
+    }
+
+    .project-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+    }
+
+    @media (min-width: 640px) {
+      .project-card { grid-template-columns: 200px 1fr; }
+    }
+
+    .project-img-wrap {
+      background: var(--amber-light);
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (min-width: 640px) {
+      .project-img-wrap { aspect-ratio: auto; min-height: 200px; }
+    }
+    .project-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .project-img-placeholder {
+      font-size: 2rem;
+      color: var(--amber);
+      opacity: .4;
+    }
+
+    .project-body { padding: 1.5rem; }
+    .project-title {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--ink);
+      margin-bottom: .4rem;
+    }
+    .project-desc {
+      font-size: .9rem;
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin-bottom: 1.1rem;
+    }
+    .tag {
+      font-size: .72rem;
+      font-weight: 500;
+      letter-spacing: .04em;
+      background: var(--amber-light);
+      color: var(--amber);
+      padding: .25rem .65rem;
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .project-links { display: flex; gap: .6rem; flex-wrap: wrap; }
+    .project-link {
+      font-size: .8rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: .45rem .95rem;
+      border-radius: var(--radius);
+      background: var(--white);
+      color: var(--ink);
+      transition: border-color .15s, color .15s, background .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+    .project-link:hover { border-color: var(--ink-muted); }
+    .project-link-primary {
+      background: var(--amber);
+      color: var(--white) !important;
+      border-color: var(--amber);
+    }
+    .project-link-primary:hover { background: #2e5a3e; border-color: #2e5a3e; }
+
+    /* ── CONTACT ── */
+    #kontakt .contact-inner {
+      max-width: 520px;
+    }
+    #kontakt h2 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      margin-bottom: .75rem;
+      letter-spacing: -0.01em;
+    }
+    #kontakt p {
+      color: var(--ink-muted);
+      margin-bottom: 1.75rem;
+      font-size: .95rem;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: .65rem 1.1rem;
+      border-radius: var(--radius);
+      background: var(--white);
+      transition: border-color .15s, color .15s;
+    }
+    .contact-link:hover { border-color: var(--amber); color: var(--amber); }
+    .contact-link svg { flex-shrink: 0; }
+
+    /* ── FOCUS ── */
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      font-size: .78rem;
+      color: var(--ink-faint);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    /* ── FADE-IN ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-logo">Lojza Tester</a>
+    <ul class="nav-links">
+      <li><a href="#skills">Dovednosti</a></li>
+      <li><a href="#projekty">Projekty</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero fade-in">
+    <p class="hero-eyebrow">Portfolio · 2026</p>
+    <h1>Junior programátor<br>se zápalem pro <em>backend</em></h1>
+    <p class="hero-desc">
+      Píšu backend v C# a Javě. Mám za sebou dva kompletní projekty
+      nasazené na Azure — od návrhu databáze přes autentizaci až po REST API
+      s dokumentací. Hledám první pozici, kde budu moci dál růst.
+    </p>
+    <a href="#projekty" class="hero-cta">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 3v10M3 8l5 5 5-5"/>
+      </svg>
+      Zobrazit projekty
+    </a>
+  </header>
+
+  <section id="skills">
+    <p class="section-label">Technologie</p>
+    <div class="skills-grid fade-in">
+      <div class="skill-cell">
+        <span class="skill-name">C# / .NET</span>
+        <span class="skill-note">ASP.NET Core MVC, Identity</span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Java</span>
+        <span class="skill-note">Spring Boot, REST API</span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">HTML &amp; CSS</span>
+        <span class="skill-note">Responsive, přístupný kód</span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">MS SQL</span>
+        <span class="skill-note">Relační databáze, Entity Framework</span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Azure</span>
+        <span class="skill-note">App Service, nasazení aplikací</span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Git / GitHub</span>
+        <span class="skill-note">Verzování, spolupráce</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="projekty">
+    <p class="section-label">Projekty</p>
+    <div class="projects-list">
+
+      <article class="project-card fade-in">
+        <div class="project-img-wrap">
+          <img src="https://lojzatester.runasp.net/img/magistri1.png"
+               alt="Magistři – přehled předmětů"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="project-img-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="6" width="28" height="28" rx="2"/><path d="M6 16h28M14 6v10"/></svg>
+          </div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Magistři</h3>
+          <p class="project-desc">
+            Informační systém pro správu studentů, předmětů a hodnocení.
+            Rolový model (admin / učitel / student) přes ASP.NET Identity,
+            databáze MS SQL s Entity Frameworkem, nasazení na Azure App Service.
+          </p>
+          <div class="project-tags">
+            <span class="tag">C#</span>
+            <span class="tag">ASP.NET Core MVC</span>
+            <span class="tag">Entity Framework</span>
+            <span class="tag">MS SQL</span>
+            <span class="tag">Azure</span>
+          </div>
+          <div class="project-links">
+            <a href="https://magistrixml.azurewebsites.net" class="project-link project-link-primary" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-3M10 2h4m0 0v4m0-4L8 10"/></svg>
+              Živá aplikace
+            </a>
+            <a href="https://github.com/lojzatester" class="project-link" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.532 1.03 1.532 1.03.891 1.529 2.341 1.087 2.91.832.091-.647.349-1.087.635-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.682-.103-.254-.446-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.748-1.025 2.748-1.025.546 1.376.202 2.392.1 2.646.64.698 1.028 1.591 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card fade-in">
+        <div class="project-img-wrap">
+          <img src="https://lojzatester.runasp.net/img/pocasiunas1.png"
+               alt="Počasí u nás – Swagger UI"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="project-img-placeholder" style="display:none">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="20" cy="20" r="10"/><path d="M20 10v4M20 26v4M10 20h4M26 20h4"/></svg>
+          </div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">Počasí u nás</h3>
+          <p class="project-desc">
+            REST API agregující meteorologická data z externího zdroje.
+            Kompletní Swagger dokumentace endpointů, nasazeno na Azure.
+            Napsáno v Javě se Spring Boot frameworkem.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Java</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">REST API</span>
+            <span class="tag">Swagger / OpenAPI</span>
+            <span class="tag">Azure</span>
+          </div>
+          <div class="project-links">
+            <a href="https://pocasiunas.azurewebsites.net/swagger-ui/index.html#/" class="project-link project-link-primary" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-3M10 2h4m0 0v4m0-4L8 10"/></svg>
+              Swagger UI
+            </a>
+            <a href="https://github.com/lojzatester" class="project-link" target="_blank" rel="noopener">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.532 1.03 1.532 1.03.891 1.529 2.341 1.087 2.91.832.091-.647.349-1.087.635-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.682-.103-.254-.446-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.748-1.025 2.748-1.025.546 1.376.202 2.392.1 2.646.64.698 1.028 1.591 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="kontakt">
+    <div class="contact-inner">
+      <p class="section-label">Kontakt</p>
+      <h2>Pojďme si napsat</h2>
+      <p>Hledám první pracovní příležitost v oblasti C# / .NET nebo Java backendu. Jsem k dispozici na pohovor.</p>
+      <div style="display:flex; flex-direction:column; gap:.75rem; align-items:flex-start;">
+        <a href="mailto:lojzatester@email.cz" class="contact-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          lojzatester@email.cz
+        </a>
+        <a href="https://github.com/lojzatester" class="contact-link" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.167 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.532 1.03 1.532 1.03.891 1.529 2.341 1.087 2.91.832.091-.647.349-1.087.635-1.337-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.682-.103-.254-.446-1.27.098-2.646 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.748-1.025 2.748-1.025.546 1.376.202 2.392.1 2.646.64.698 1.028 1.591 1.028 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          github.com/lojzatester
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Lojza Tester</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
